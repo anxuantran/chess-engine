@@ -14,7 +14,7 @@ def pos_eval(board,color):
     piece_map = board.piece_map() #dictionary
     
     findMax = true #white's turn 
-    max = 0
+    max = float('inf')
     
     if(color == false): #if black's turn
         findMax = false
@@ -25,6 +25,7 @@ def pos_eval(board,color):
     for move in legal_moves: #loop through all legal moves
         if(is_capture(move)): #if move is a capture
             end_square = move[-2:]
+            print(end_square)
             piece_at_end = piece_map[end_square].piece_type
             score = piece_val[piece_at_end]
             
@@ -51,6 +52,37 @@ def board_score(board):
             score -= piece_val[piece.piece_type]
     return score
 
-board = chess.Board()
-print(board_score(board))
+def max(board,depth):
+    state = board
+    if depth == 0:
+        return board_score(board)
+    max = float('-inf')
+    legal_moves = board.legal_moves
+    for move in legal_moves:
+        board.push(move)
+        score = min(board,depth-1)
+        board = state #return to original *undo move*
+        if(score > max):
+            max = score
+    return max
 
+def min(board, depth):
+    state = board
+    if depth == 0:
+        return -board_score(board)
+    min = float('inf')
+    legal_moves = board.legal_moves
+    for move in legal_moves:
+        board.push(move)
+        score = max(board,depth-1)
+        if(score < min):
+            min = score
+    return min
+
+
+board = chess.Board()
+board.push_san("e4")
+board.push_san("d5")
+board.push_san("c4") #black's next best move should be d5 x c4
+print(board_score(board))
+print(min(board,3))
