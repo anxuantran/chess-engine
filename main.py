@@ -61,7 +61,7 @@ def max(board,depth):
     for move in legal_moves:
         board.push(move)
         score = min(board,depth-1)
-        board = state #return to original *undo move*
+        board.pop() #return to original *undo move*
         if(score > max):
             max = score
     return max
@@ -75,6 +75,7 @@ def min(board, depth):
     for move in legal_moves:
         board.push(move)
         score = max(board,depth-1)
+        board.pop()
         if(score < min):
             min = score
     return min
