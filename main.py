@@ -80,6 +80,32 @@ def min(board, depth):
             min = score
     return min
 
+#01/17/21 10:39pm
+def minimax(board,depth, alpha, beta, maximizing): #maximizing = true for white
+    if depth == 0 or board.is_game_over
+        return board_score(board)
+    legal_moves = board.legal_moves #must check if move is black or whites?
+    if maxmizing:
+        max_eval = float('-inf')
+        for move in legal_moves:
+            board.push(move)
+            eval = minimax(board,depth-1,alpha,beta,false) #switch to black
+            alpha = max(alpha,eval)
+            board.pop()
+            if beta <= alpha
+                break
+        return max_eval
+    else
+        min_eval = float('inf')
+        for move in legal_moves
+            board.push(move)
+            eval = minimax(board,depth-1,alpha,beta,false)
+            beta = min(beta,eval)
+            board.pop()
+            if beta <= alpha
+                break
+        return min_eval #01/18/21 : add alpha-beta pruning to traversion
+    #initial call: alpha = -inf, beta = inf
 
 board = chess.Board()
 board.push_san("e4")
